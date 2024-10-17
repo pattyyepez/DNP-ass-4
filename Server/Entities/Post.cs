@@ -13,4 +13,5 @@ public class Post
         Content = content;
         UserId = userId;
     }
+
 }
