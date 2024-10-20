@@ -52,8 +52,8 @@ public class ListPostsView
             if (int.TryParse(input, out postId))
             {
                 SinglePostView singlePostView = new(postRepository, commentRepository, userRepository, postId);
-                await singlePostView.Show();
-                Console.WriteLine(options);
+                await singlePostView.ShowAsync();
+                Console.WriteLine("Insert Post ID too see more info \n Exit ");
             }
             else
             {

@@ -20,7 +20,7 @@ public class ManageUsersView
                               "2) Update user\n" +
                               "3) Delete user\n " +
                               "4) View users\n" +
-                              "5) Back");
+                              "5) Exit");
             string number = Console.ReadLine() ?? "";
             if (string.IsNullOrEmpty(number))
             {
@@ -28,7 +28,7 @@ public class ManageUsersView
                 continue;
             }
 
-            if ("<".Equals(number))
+            if ("5".Equals(number))
             {
                 return;
             }

@@ -1,3 +1,6 @@
+using CLI.UI.ManageComments;
+using Entities;
+using RepositoryContracts; 
 namespace CLI.UI.ManagePosts;
 
 public class SinglePostView
@@ -21,23 +24,18 @@ public class SinglePostView
                 Console.WriteLine($"**************************************");
                 Console.WriteLine($"Title: {post.Title}");
                 Console.WriteLine($"**************************************");
-                Console.WriteLine($"Content: {post.Body}");
+                Console.WriteLine($"Content: {post.Content}");
                 Console.WriteLine($"**************************************");
                 
-                List<Comment> comments = commentRepository.GetMany().Where(c => c.PostId == postId).ToList();
+                List<Comment> comments = commentRepository.GetManyAsync().Where(c => c.PostId == postId).ToList();
         
                 foreach (Comment comment in comments)
                 {
                     User user = await userRepository.GetSingleAsync(comment.UserId); 
-                    Console.WriteLine($"{user.UserName}: {comment.Body}");
+                    Console.WriteLine($"{user.Username}: {comment.Body}");
                 }
-        
-                Console.WriteLine();
-                const string options = """
-                                       1) Add comment;
-                                       <) Back
-                                       """;
-                Console.WriteLine("1) Add comment; \n Exit");
+                
+                Console.WriteLine("1) Add comment; \n 2) Delete comment; \n 3) Exit");
         
                 while (true)
                 {
@@ -48,12 +46,24 @@ public class SinglePostView
                         continue;
                     }
         
-                    if ("Exit".Equals(input))
+                    if ("1".Equals(input))
+                    {
+                        AddCommentsView addCommentView = new AddCommentsView(commentRepository, userRepository, postRepository, postId);
+                        await addCommentView.ShowAsync();
+                        return;
+                    }
+                    if ("2".Equals(input))
+                    {
+                        DeleteCommentsView deleteCommentView = new DeleteCommentsView(commentRepository);
+                        await deleteCommentView.ShowAsync();
+                        return;
+                    }
+                    if ("3".Equals(input))
                     {
                         return;
                     }
         
-                    Console.WriteLine("Not supported");
+                    
                 }
             } 
 }
