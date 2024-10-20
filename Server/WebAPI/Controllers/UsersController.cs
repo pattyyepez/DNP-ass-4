@@ -19,7 +19,7 @@ namespace WebAPI.Controllers;
         [HttpPost]
         public async Task<ActionResult<UserDto>> CreateUser([FromBody] CreateUserDto request)
         {
-            await VerifyUserNameIsAvailableAsync(request.UserName); // Verifica si el nombre está disponible
+            await VerifyUserNameIsAvailableAsync(request.UserName); 
             var user = new User(request.UserName, request.Password);
             var createdUser = await _userRepository.AddAsync(user);
             var userDto = new UserDto { Id = createdUser.Id, UserName = createdUser.Username };
@@ -67,7 +67,6 @@ namespace WebAPI.Controllers;
             return NoContent();
         }
 
-        // Método para verificar si el nombre de usuario está disponible
         private async Task VerifyUserNameIsAvailableAsync(string userName)
         {
             var existingUser = _userRepository.GetManyAsync().FirstOrDefault(u => u.Username == userName);

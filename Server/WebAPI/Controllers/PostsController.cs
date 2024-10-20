@@ -23,7 +23,7 @@ namespace WebAPI.Controllers;
         [HttpPost]
         public async Task<ActionResult<PostDto>> CreatePost([FromBody] CreatePostDto request)
         {
-            await VerifyUserExistsAsync(request.UserId);  // Verifica si el usuario existe
+            await VerifyUserExistsAsync(request.UserId);  
 
             var post = new Post(request.Title, request.Content, request.UserId);
             var createdPost = await _postRepository.AddAsync(post);
@@ -95,7 +95,6 @@ namespace WebAPI.Controllers;
             return NoContent();
         }
 
-        // Método para verificar si el usuario existe
         private async Task VerifyUserExistsAsync(int userId)
         {
             var user = await _userRepository.GetSingleAsync(userId);
